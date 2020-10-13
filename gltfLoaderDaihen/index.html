@@ -62,6 +62,7 @@
         let loader = new THREE.GLTFLoader();
         loader.load('FD-S3/base.gltf', function(gltf){
             base.add(gltf.scene);
+            base.rotation.x -= Math.PI/2;
         })
         loader.load('FD-S3/link_1.gltf', function(gltf){
             link1.add(gltf.scene);
