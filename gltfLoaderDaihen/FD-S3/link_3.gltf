@@ -1,0 +1,88 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.3.48",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Link 3"
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Link 3",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1
+                    },
+                    "indices" : 2
+                }
+            ]
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 32676,
+            "max" : [
+                189.5,
+                54,
+                111
+            ],
+            "min" : [
+                -93,
+                -54,
+                -23.952640533447266
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 32676,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5123,
+            "count" : 34146,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 392112,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 392112,
+            "byteOffset" : 392112
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 68292,
+            "byteOffset" : 784224
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 852516,
+            "uri" : "link_3.bin"
+        }
+    ]
+}

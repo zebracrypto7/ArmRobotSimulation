@@ -11,35 +11,37 @@
     <script src="three.min.js"></script>
     <script src="GLTFLoader.js"></script>
     <script src="OrbitControls.js"></script>
-    <div class="header">
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">History</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </div>
     <div class="content"></div>
+    <div class="controler">
+        <div class="btn" id="plusJ1">+J1</div>
+        <div class="btn" id="minusJ1">-J1</div>
+        <div class="btn" id="plusJ2">+J2</div>
+        <div class="btn" id="minusJ2">-J2</div>
+        <div class="btn" id="plusJ3">+J3</div>
+        <div class="btn" id="minusJ3">-J3</div>
+    </div>
     <script>
 
         let scene = new THREE.Scene();
         scene.background = new THREE.Color(0xdddddd);
 
-        let camera = new THREE.PerspectiveCamera(40, window.innerWidth/(window.innerHeight-150), 1, 5000);
-        //camera.rotation.y = 45/180*Math.PI;
-        //camera.rotation.x = 45/180*Math.PI;
+        const width = 750;
+        const height = 500;
+        let camera = new THREE.PerspectiveCamera(40, width/height, 1, 5000);
         camera.position.y = 500;
         camera.position.z = 2500;
-
-        let controls = new THREE.OrbitControls(camera, document.body);
-        //controls.addEventListener('change', renderer);
+        //camera.rotation.x += 1.6;
+        //camera.rotation.z += 1.6;
 
         renderer = new THREE.WebGLRenderer({antialias:true});
-        renderer.setSize(window.innerWidth, window.innerHeight-150);
-        //document.body.appendChild(renderer.domElement);
+        //renderer.setSize(window.innerWidth, window.innerHeight-150);
+        
+        renderer.setSize(width, height);
         const content = document.querySelector('.content');
         content.appendChild(renderer.domElement);
+
+        let controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.addEventListener('change', renderer);
 
         let hlight = new THREE.AmbientLight(0x404040, 100);
         scene.add(hlight);
@@ -51,40 +53,117 @@
 
         const base = new THREE.Group();
         const link1 = new THREE.Group();
+        const link2 = new THREE.Group();
+        const link3 = new THREE.Group();
+        const link4 = new THREE.Group();
+        const link5 = new THREE.Group();
+        const link6 = new THREE.Group();
 
         let loader = new THREE.GLTFLoader();
-        loader.load('base.gltf', function(gltf){
-            //scene.add(gltf.scene);
+        loader.load('FD-S3/base.gltf', function(gltf){
             base.add(gltf.scene);
         })
-
-        loader.load('Link_1.gltf', function(gltf){
-            gltf.scene.position.x = 300;
-            //gltf.scene.name = "uuuu";
-            //scene.add(gltf.scene);
-            //gltf.scene.position.y = 300;
-            
+        loader.load('FD-S3/link_1.gltf', function(gltf){
             link1.add(gltf.scene);
             base.add(link1);
+            link1.position.set(0,0,105);
+        })
+        loader.load('FD-S3/link_2.gltf', function(gltf){
+            link2.add(gltf.scene);
+            link1.add(link2);
+            link2.position.set(200,0,165);
+        })
+        loader.load('FD-S3/link_3.gltf', function(gltf){
+            link3.add(gltf.scene);
+            link2.add(link3);
+            link3.position.set(0,0,350);
+        })
+        loader.load('FD-S3/link_4.gltf', function(gltf){
+            link4.add(gltf.scene);
+            link3.add(link4);
+            link4.position.set(400,0,60);
+        })
+        loader.load('FD-S3/link_5.gltf', function(gltf){
+            link5.add(gltf.scene);
+            link4.add(link5);
+            link5.position.set(0,0,0);
+        })
+        loader.load('FD-S3/link_6.gltf', function(gltf){
+            link6.add(gltf.scene);
+            link5.add(link6);
+            link6.position.set(90,0,0);
+            link6.rotation.y += Math.PI/2;
         })
 
         scene.add(base);
-        scene.add(link1);
-        
-        link1.position.y = 300;
-        link1.rotation.y += 1;
-
-        base.rotation.y += 2;
 
         function tick() {
             // レンダリング
-            //link1.rotation.y += 0.02;
-            //base.rotation.y += 0.01;
             renderer.render(scene, camera);
             requestAnimationFrame(tick);
         }
 
         tick();
+
+        // イベントハンドラ　///////////////////////////////
+
+        // 1軸回転　正方向
+        const plusJ1 = document.getElementById("plusJ1");
+        plusJ1.addEventListener('click', function(event){
+            link1.rotation.z += 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(plusJ1);
+        })
+
+        // 1軸回転　負方向
+        const minusJ1 = document.getElementById("minusJ1");
+        minusJ1.addEventListener('click', function(event){
+            link1.rotation.z -= 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(minusJ1);
+        })
+
+        // 2軸回転　正方向
+        const plusJ2 = document.getElementById("plusJ2");
+        plusJ2.addEventListener('click', function(event){
+            link2.rotation.y += 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(plusJ2);
+        })
+
+        // 2軸回転　負方向
+        const minusJ2 = document.getElementById("minusJ2");
+        minusJ2.addEventListener('click', function(event){
+            link2.rotation.y -= 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(minusJ2);
+        })
+
+        // 3軸回転　正方向
+        const plusJ3 = document.getElementById("plusJ3");
+        plusJ3.addEventListener('click', function(event){
+            link3.rotation.y += 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(plusJ3);
+        })
+
+        // 3軸回転　負方向
+        const minusJ3 = document.getElementById("minusJ3");
+        minusJ3.addEventListener('click', function(event){
+            link3.rotation.y -= 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(minusJ3);
+        })
+
+        function ViewClicking(target){
+            target.addEventListener('mousedown', (e)=>{
+                target.style.background = "#ffaaaa";
+            })
+            target.addEventListener('mouseup', (e)=>{
+                target.style.background = "#dddddd";
+            })
+        }
+
     </script>
 </body>
 </html>
