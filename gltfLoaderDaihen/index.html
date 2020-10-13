@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <script src="three.min.js"></script>
+    <script src="GLTFLoader.js"></script>
+    <script src="OrbitControls.js"></script>
+    <div class="header">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">History</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <div class="content"></div>
+    <script>
+
+        let scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xdddddd);
+
+        let camera = new THREE.PerspectiveCamera(40, window.innerWidth/(window.innerHeight-150), 1, 5000);
+        //camera.rotation.y = 45/180*Math.PI;
+        //camera.rotation.x = 45/180*Math.PI;
+        camera.position.y = 500;
+        camera.position.z = 2500;
+
+        let controls = new THREE.OrbitControls(camera, document.body);
+        //controls.addEventListener('change', renderer);
+
+        renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize(window.innerWidth, window.innerHeight-150);
+        //document.body.appendChild(renderer.domElement);
+        const content = document.querySelector('.content');
+        content.appendChild(renderer.domElement);
+
+        let hlight = new THREE.AmbientLight(0x404040, 100);
+        scene.add(hlight);
+
+        let gridSize = 2000;
+        let gridDivision = 10;
+        let grid = new THREE.GridHelper(gridSize, gridDivision);
+        scene.add(grid);
+
+        const base = new THREE.Group();
+        const link1 = new THREE.Group();
+
+        let loader = new THREE.GLTFLoader();
+        loader.load('base.gltf', function(gltf){
+            //scene.add(gltf.scene);
+            base.add(gltf.scene);
+        })
+
+        loader.load('Link_1.gltf', function(gltf){
+            gltf.scene.position.x = 300;
+            //gltf.scene.name = "uuuu";
+            //scene.add(gltf.scene);
+            //gltf.scene.position.y = 300;
+            
+            link1.add(gltf.scene);
+            base.add(link1);
+        })
+
+        scene.add(base);
+        scene.add(link1);
+        
+        link1.position.y = 300;
+        link1.rotation.y += 1;
+
+        base.rotation.y += 2;
+
+        function tick() {
+            // レンダリング
+            //link1.rotation.y += 0.02;
+            //base.rotation.y += 0.01;
+            renderer.render(scene, camera);
+            requestAnimationFrame(tick);
+        }
+
+        tick();
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #dddddd;
+    font-family: 'Sansita Swashed', cursive;
+}
+.header{
+    height: 10vh;
+}
+.content{
+    height: 90vh;
+}
+ul{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    list-style: none;
+}
+ul li a{
+    margin-right: 50px;
+    font-size: 3em;
+    text-decoration: none;
+    color: #111;
+}
+ul li a:hover {
+    color: #f11;
+}
