@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
@@ -36,21 +36,19 @@
         let camera = new THREE.PerspectiveCamera(40, width/height, 1, 5000);
         camera.position.y = 500;
         camera.position.z = 2500;
-        //camera.rotation.x += 1.6;
-        //camera.rotation.z += 1.6;
 
         renderer = new THREE.WebGLRenderer({antialias:true});
-        //renderer.setSize(window.innerWidth, window.innerHeight-150);
-        
         renderer.setSize(width, height);
         const content = document.querySelector('.content');
         content.appendChild(renderer.domElement);
 
         let controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.addEventListener('change', renderer);
+        //controls.addEventListener('change', renderer);    // <-- 使うとwarningでる
 
-        let hlight = new THREE.AmbientLight(0x404040, 100);
-        scene.add(hlight);
+        const ambientlight = new THREE.AmbientLight(0x404040, 1.0);
+        scene.add(ambientlight);
+        const hemispherelight = new THREE.HemisphereLight(0xffffff, 0x888888, 1.0);
+        scene.add(hemispherelight);
 
         let gridSize = 2000;
         let gridDivision = 10;
@@ -65,38 +63,46 @@
         const link5 = new THREE.Group();
         const link6 = new THREE.Group();
 
+        const material = new THREE.MeshLambertMaterial({color: 0xe3d7a3});
         let loader = new THREE.GLTFLoader();
         loader.load('FD-S3/base.gltf', function(gltf){
-            base.add(gltf.scene);
+            const mesh = MakeMeshFromGLTF(gltf, material);
+            base.add(mesh);
             base.rotation.x -= Math.PI/2;
         })
         loader.load('FD-S3/link_1.gltf', function(gltf){
-            link1.add(gltf.scene);
+            const mesh = MakeMeshFromGLTF(gltf, material);
+            link1.add(mesh);
             base.add(link1);
             link1.position.set(0,0,105);
         })
         loader.load('FD-S3/link_2.gltf', function(gltf){
-            link2.add(gltf.scene);
+            const mesh = MakeMeshFromGLTF(gltf, material);
+            link2.add(mesh);
             link1.add(link2);
             link2.position.set(200,0,165);
         })
         loader.load('FD-S3/link_3.gltf', function(gltf){
-            link3.add(gltf.scene);
+            const mesh = MakeMeshFromGLTF(gltf, material);
+            link3.add(mesh);
             link2.add(link3);
             link3.position.set(0,0,350);
         })
         loader.load('FD-S3/link_4.gltf', function(gltf){
-            link4.add(gltf.scene);
+            const mesh = MakeMeshFromGLTF(gltf, material);
+            link4.add(mesh);
             link3.add(link4);
             link4.position.set(400,0,60);
         })
         loader.load('FD-S3/link_5.gltf', function(gltf){
-            link5.add(gltf.scene);
+            const mesh = MakeMeshFromGLTF(gltf, material);
+            link5.add(mesh);
             link4.add(link5);
             link5.position.set(0,0,0);
         })
         loader.load('FD-S3/link_6.gltf', function(gltf){
-            link6.add(gltf.scene);
+            const mesh = MakeMeshFromGLTF(gltf, material);
+            link6.add(mesh);
             link5.add(link6);
             link6.position.set(90,0,0);
             link6.rotation.y += Math.PI/2;
@@ -111,6 +117,12 @@
         }
 
         tick();
+
+        function MakeMeshFromGLTF(gltf, material){
+            const geometry = gltf.scene.children[0].geometry.clone();
+            const mesh = new THREE.Mesh(geometry, material);
+            return mesh;
+        }
 
         // イベントハンドラ　///////////////////////////////
 

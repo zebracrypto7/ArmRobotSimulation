@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Josefin Sans', sans-serif;
 }
 .content{
     position: absolute;
@@ -18,4 +19,6 @@
     margin: 50px;
     text-align: center;
     background-color: #dddddd;
+    font-size: 30px;
+    user-select: none;
 }
