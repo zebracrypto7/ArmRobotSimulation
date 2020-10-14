@@ -19,6 +19,12 @@
         <div class="btn" id="minusJ2">-J2</div>
         <div class="btn" id="plusJ3">+J3</div>
         <div class="btn" id="minusJ3">-J3</div>
+        <div class="btn" id="plusJ4">+J4</div>
+        <div class="btn" id="minusJ4">-J4</div>
+        <div class="btn" id="plusJ5">+J5</div>
+        <div class="btn" id="minusJ5">-J5</div>
+        <div class="btn" id="plusJ6">+J6</div>
+        <div class="btn" id="minusJ6">-J6</div>
     </div>
     <script>
 
@@ -154,6 +160,54 @@
             link3.rotation.y -= 0.1;
             renderer.render(scene, camera);
             ViewClicking(minusJ3);
+        })
+
+        // 4軸回転　正方向
+        const plusJ4 = document.getElementById("plusJ4");
+        plusJ4.addEventListener('click', function(event){
+            link4.rotation.x += 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(plusJ4);
+        })
+
+        // 4軸回転　負方向
+        const minusJ4 = document.getElementById("minusJ4");
+        minusJ4.addEventListener('click', function(event){
+            link4.rotation.x -= 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(minusJ4);
+        })
+
+        // 5軸回転　正方向
+        const plusJ5 = document.getElementById("plusJ5");
+        plusJ5.addEventListener('click', function(event){
+            link5.rotation.y += 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(plusJ5);
+        })
+
+        // 5軸回転　負方向
+        const minusJ5 = document.getElementById("minusJ5");
+        minusJ5.addEventListener('click', function(event){
+            link5.rotation.y -= 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(minusJ5);
+        })
+
+        // 6軸回転　正方向
+        const plusJ6 = document.getElementById("plusJ6");
+        plusJ6.addEventListener('click', function(event){
+            link6.rotation.x += 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(plusJ6);
+        })
+
+        // 6軸回転　負方向
+        const minusJ6 = document.getElementById("minusJ6");
+        minusJ6.addEventListener('click', function(event){
+            link6.rotation.x -= 0.1;
+            renderer.render(scene, camera);
+            ViewClicking(minusJ6);
         })
 
         function ViewClicking(target){
