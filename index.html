@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="fabicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>ArmRobotSimulation</title>
 </head>
 <body>
     <script src="three.min.js"></script>
@@ -45,7 +46,7 @@
         let controls = new THREE.OrbitControls(camera, renderer.domElement);
         //controls.addEventListener('change', renderer);    // <-- 使うとwarningでる
 
-        const ambientlight = new THREE.AmbientLight(0x404040, 1.0);
+        const ambientlight = new THREE.AmbientLight(0x404040, 0.75);
         scene.add(ambientlight);
         const hemispherelight = new THREE.HemisphereLight(0xffffff, 0x888888, 1.0);
         scene.add(hemispherelight);
@@ -63,7 +64,8 @@
         const link5 = new THREE.Group();
         const link6 = new THREE.Group();
 
-        const material = new THREE.MeshLambertMaterial({color: 0xe3d7a3});
+        //const material = new THREE.MeshLambertMaterial({color: 0xe3d7a3});
+        const material = new THREE.MeshLambertMaterial({color: 0xf8a900});
         let loader = new THREE.GLTFLoader();
         loader.load('FD-S3/base.gltf', function(gltf){
             const mesh = MakeMeshFromGLTF(gltf, material);
@@ -81,12 +83,14 @@
             link2.add(mesh);
             link1.add(link2);
             link2.position.set(200,0,165);
+            link2.rotation.y -= 0.6;    // 初期値
         })
         loader.load('FD-S3/link_3.gltf', function(gltf){
             const mesh = MakeMeshFromGLTF(gltf, material);
             link3.add(mesh);
             link2.add(link3);
             link3.position.set(0,0,350);
+            link3.rotation.y += 0.6;    // 初期値
         })
         loader.load('FD-S3/link_4.gltf', function(gltf){
             const mesh = MakeMeshFromGLTF(gltf, material);
@@ -99,6 +103,7 @@
             link5.add(mesh);
             link4.add(link5);
             link5.position.set(0,0,0);
+            link5.rotation.y += Math.PI/2;    // 初期値
         })
         loader.load('FD-S3/link_6.gltf', function(gltf){
             const mesh = MakeMeshFromGLTF(gltf, material);
