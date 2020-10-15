@@ -28,7 +28,7 @@
         <div class="btn" id="minusJ6">-J6</div>
     </div>
     <script>
-
+        const theta = Math.PI/15;
         let scene = new THREE.Scene();
         scene.background = new THREE.Color(0xdddddd);
 
@@ -83,14 +83,14 @@
             link2.add(mesh);
             link1.add(link2);
             link2.position.set(200,0,165);
-            link2.rotation.y -= 0.6;    // 初期値
+            link2.rotation.y -= 3*theta;    // 初期値
         })
         loader.load('FD-S3/link_3.gltf', function(gltf){
             const mesh = MakeMeshFromGLTF(gltf, material);
             link3.add(mesh);
             link2.add(link3);
             link3.position.set(0,0,350);
-            link3.rotation.y += 0.6;    // 初期値
+            link3.rotation.y += 3*theta;    // 初期値
         })
         loader.load('FD-S3/link_4.gltf', function(gltf){
             const mesh = MakeMeshFromGLTF(gltf, material);
@@ -134,7 +134,7 @@
         // 1軸回転　正方向
         const plusJ1 = document.getElementById("plusJ1");
         plusJ1.addEventListener('click', function(event){
-            link1.rotation.z += 0.1;
+            link1.rotation.z += theta;
             renderer.render(scene, camera);
             ViewClicking(plusJ1);
         })
@@ -142,7 +142,7 @@
         // 1軸回転　負方向
         const minusJ1 = document.getElementById("minusJ1");
         minusJ1.addEventListener('click', function(event){
-            link1.rotation.z -= 0.1;
+            link1.rotation.z -= theta;
             renderer.render(scene, camera);
             ViewClicking(minusJ1);
         })
@@ -150,7 +150,7 @@
         // 2軸回転　正方向
         const plusJ2 = document.getElementById("plusJ2");
         plusJ2.addEventListener('click', function(event){
-            link2.rotation.y += 0.1;
+            link2.rotation.y += theta;
             renderer.render(scene, camera);
             ViewClicking(plusJ2);
         })
@@ -158,7 +158,7 @@
         // 2軸回転　負方向
         const minusJ2 = document.getElementById("minusJ2");
         minusJ2.addEventListener('click', function(event){
-            link2.rotation.y -= 0.1;
+            link2.rotation.y -= theta;
             renderer.render(scene, camera);
             ViewClicking(minusJ2);
         })
@@ -166,7 +166,7 @@
         // 3軸回転　正方向
         const plusJ3 = document.getElementById("plusJ3");
         plusJ3.addEventListener('click', function(event){
-            link3.rotation.y += 0.1;
+            link3.rotation.y += theta;
             renderer.render(scene, camera);
             ViewClicking(plusJ3);
         })
@@ -174,7 +174,7 @@
         // 3軸回転　負方向
         const minusJ3 = document.getElementById("minusJ3");
         minusJ3.addEventListener('click', function(event){
-            link3.rotation.y -= 0.1;
+            link3.rotation.y -= theta;
             renderer.render(scene, camera);
             ViewClicking(minusJ3);
         })
@@ -182,7 +182,7 @@
         // 4軸回転　正方向
         const plusJ4 = document.getElementById("plusJ4");
         plusJ4.addEventListener('click', function(event){
-            link4.rotation.x += 0.1;
+            link4.rotation.x += theta;
             renderer.render(scene, camera);
             ViewClicking(plusJ4);
         })
@@ -190,7 +190,7 @@
         // 4軸回転　負方向
         const minusJ4 = document.getElementById("minusJ4");
         minusJ4.addEventListener('click', function(event){
-            link4.rotation.x -= 0.1;
+            link4.rotation.x -= theta;
             renderer.render(scene, camera);
             ViewClicking(minusJ4);
         })
@@ -198,7 +198,7 @@
         // 5軸回転　正方向
         const plusJ5 = document.getElementById("plusJ5");
         plusJ5.addEventListener('click', function(event){
-            link5.rotation.y += 0.1;
+            link5.rotation.y += theta;
             renderer.render(scene, camera);
             ViewClicking(plusJ5);
         })
@@ -206,7 +206,7 @@
         // 5軸回転　負方向
         const minusJ5 = document.getElementById("minusJ5");
         minusJ5.addEventListener('click', function(event){
-            link5.rotation.y -= 0.1;
+            link5.rotation.y -= theta;
             renderer.render(scene, camera);
             ViewClicking(minusJ5);
         })
@@ -214,7 +214,7 @@
         // 6軸回転　正方向
         const plusJ6 = document.getElementById("plusJ6");
         plusJ6.addEventListener('click', function(event){
-            link6.rotation.x += 0.1;
+            link6.rotation.x += theta;
             renderer.render(scene, camera);
             ViewClicking(plusJ6);
         })
@@ -222,7 +222,7 @@
         // 6軸回転　負方向
         const minusJ6 = document.getElementById("minusJ6");
         minusJ6.addEventListener('click', function(event){
-            link6.rotation.x -= 0.1;
+            link6.rotation.x -= theta;
             renderer.render(scene, camera);
             ViewClicking(minusJ6);
         })
