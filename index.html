@@ -12,6 +12,7 @@
     <script src="three.min.js"></script>
     <script src="GLTFLoader.js"></script>
     <script src="OrbitControls.js"></script>
+    <script src="InverseKinematics.js"></script>
     <div class="content"></div>
     <div class="controler">
         <div class="btn" id="plusJ1">+J1</div>
@@ -114,6 +115,11 @@
         })
 
         scene.add(base);
+
+        let ik = new InverseKinematics();
+        ik.setNowJointValue(0, Math.PI/2,0,0,0,0);
+        let tgtMat = ik.CalcForwardKinematics();
+        let tgtPos = new THREE.Vector3().setFromMatrixPosition(tgtMat);
 
         function tick() {
             // レンダリング
