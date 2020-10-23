@@ -10,13 +10,21 @@
     left: 50px;
 }
 .controler{
-    position: relative;
+    position: absolute;
+    top: 50px;
     left: 800px;
 }
-.controler .btn{
+.controler .btnList{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.controler .btnList .btn{
     width: 100px;
     height: 40px;
-    margin: 50px;
+    margin-left: 50px;
+    margin-top: 0;
+    margin-bottom: 50px;
     text-align: center;
     background-color: #dddddd;
     font-size: 30px;

@@ -15,18 +15,42 @@
     <script src="InverseKinematics.js"></script>
     <div class="content"></div>
     <div class="controler">
-        <div class="btn" id="plusJ1">+J1</div>
-        <div class="btn" id="minusJ1">-J1</div>
-        <div class="btn" id="plusJ2">+J2</div>
-        <div class="btn" id="minusJ2">-J2</div>
-        <div class="btn" id="plusJ3">+J3</div>
-        <div class="btn" id="minusJ3">-J3</div>
-        <div class="btn" id="plusJ4">+J4</div>
-        <div class="btn" id="minusJ4">-J4</div>
-        <div class="btn" id="plusJ5">+J5</div>
-        <div class="btn" id="minusJ5">-J5</div>
-        <div class="btn" id="plusJ6">+J6</div>
-        <div class="btn" id="minusJ6">-J6</div>
+        <div class="btnList">
+            <div class="btn" id="plusJ1">+J1</div>
+            <div class="btn" id="minusJ1">-J1</div>
+            <div class="btn" id="plusX">+X</div>
+            <div class="btn" id="minusX">-X</div>
+        </div>
+        <div class="btnList">
+            <div class="btn" id="plusJ2">+J2</div>
+            <div class="btn" id="minusJ2">-J2</div>
+            <div class="btn" id="plusY">+Y</div>
+            <div class="btn" id="minusY">-Y</div>
+        </div>
+        <div class="btnList">
+            <div class="btn" id="plusJ3">+J3</div>
+            <div class="btn" id="minusJ3">-J3</div>
+            <div class="btn" id="plusZ">+Z</div>
+            <div class="btn" id="minusZ">-Z</div>
+        </div>
+        <div class="btnList">
+            <div class="btn" id="plusJ4">+J4</div>
+            <div class="btn" id="minusJ4">-J4</div>
+            <div class="btn" id="plusRx">+Roll</div>
+            <div class="btn" id="minusRx">-Roll</div>
+        </div>
+        <div class="btnList">
+            <div class="btn" id="plusJ5">+J5</div>
+            <div class="btn" id="minusJ5">-J5</div>
+            <div class="btn" id="plusRy">+Pitch</div>
+            <div class="btn" id="minusRy">-Pitch</div>
+        </div>
+        <div class="btnList">
+            <div class="btn" id="plusJ6">+J6</div>
+            <div class="btn" id="minusJ6">-J6</div>
+            <div class="btn" id="plusRz">+Yaw</div>
+            <div class="btn" id="minusRz">-Yaw</div>
+        </div>
     </div>
     <script>
         const theta = Math.PI/15;
@@ -120,6 +144,7 @@
         ik.setNowJointValue(0, Math.PI/2,0,0,0,0);
         let tgtMat = ik.CalcForwardKinematics();
         let tgtPos = new THREE.Vector3().setFromMatrixPosition(tgtMat);
+        let jointDeg = ik.CalcInverseKinematics(tgtMat);
 
         function tick() {
             // レンダリング
