@@ -10,8 +10,8 @@ class InverseKinematics {
         this.dhd6 = 90;
 
         this.dha2 = 200;
-        this.dha3 = 355;
-        this.dha4 = 60;
+        this.dha3 = 350;
+        this.dha4 = 65;
         this.dha5 = 0;
         this.dha6 = 0;
 
@@ -57,15 +57,6 @@ class InverseKinematics {
         this.matZ4 = new THREE.Matrix4();
         this.matZ5 = new THREE.Matrix4();
         this.matZ6 = new THREE.Matrix4();
-    }
-
-    setNowJointValue(val1, val2, val3, val4, val5, val6){
-        this.SetTheta1 = val1;
-        this.SetTheta2 = val2;
-        this.SetTheta3 = val3;
-        this.SetTheta4 = val4;
-        this.SetTheta5 = val5;
-        this.SetTheta6 = val6;
     }
 
     set SetTheta1(value){
@@ -117,12 +108,21 @@ class InverseKinematics {
         );
     }
 
+    setNowJointValue(val1, val2, val3, val4, val5, val6){
+        this.SetTheta1 = val1;
+        this.SetTheta2 = val2;
+        this.SetTheta3 = val3;
+        this.SetTheta4 = val4;
+        this.SetTheta5 = val5;
+        this.SetTheta6 = val6;
+    }
+
     MakeInverseTfmMatZ(theta, dhd){
         let temp = new THREE.Matrix4();
         temp.set(
             Math.cos(-theta), -Math.sin(-theta),0,0,
             Math.sin(-theta), Math.cos(theta), 0,0,
-            0,0,1,dhd,
+            0,0,1,-dhd,
             0,0,0,1
         );
         return temp;
@@ -130,18 +130,18 @@ class InverseKinematics {
 
     CalcForwardKinematics(){
         let resMat = new THREE.Matrix4();
-        resMat = resMat.multiply(this.matZ0);
-        resMat = resMat.multiply(this.matZ1);
-        resMat = resMat.multiply(this.matX2);
-        resMat = resMat.multiply(this.matZ2);
-        resMat = resMat.multiply(this.matX3);
-        resMat = resMat.multiply(this.matZ3);
-        resMat = resMat.multiply(this.matX4);
-        resMat = resMat.multiply(this.matZ4);
-        resMat = resMat.multiply(this.matX5);
-        resMat = resMat.multiply(this.matZ5);
-        resMat = resMat.multiply(this.matX6);
-        resMat = resMat.multiply(this.matZ6);
+        resMat.multiply(this.matZ0);
+        resMat.multiply(this.matZ1);
+        resMat.multiply(this.matX2);
+        resMat.multiply(this.matZ2);
+        resMat.multiply(this.matX3);
+        resMat.multiply(this.matZ3);
+        resMat.multiply(this.matX4);
+        resMat.multiply(this.matZ4);
+        resMat.multiply(this.matX5);
+        resMat.multiply(this.matZ5);
+        resMat.multiply(this.matX6);
+        resMat.multiply(this.matZ6); 
 
         return resMat;
     }
@@ -234,6 +234,7 @@ class InverseKinematics {
         }
 
         const resJointDeg = [theta1, theta2, theta3, theta4, theta5, theta6];
+        //const resJointDeg = [r11,r12,r13,r21,r22,r23,r31,r32,r33];
         return resJointDeg;
     }
 }

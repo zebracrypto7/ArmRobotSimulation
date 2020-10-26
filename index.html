@@ -89,7 +89,6 @@
         const link5 = new THREE.Group();
         const link6 = new THREE.Group();
 
-        //const material = new THREE.MeshLambertMaterial({color: 0xe3d7a3});
         const material = new THREE.MeshLambertMaterial({color: 0xf8a900});
         let loader = new THREE.GLTFLoader();
         loader.load('FD-S3/base.gltf', function(gltf){
@@ -121,7 +120,7 @@
             const mesh = MakeMeshFromGLTF(gltf, material);
             link4.add(mesh);
             link3.add(link4);
-            link4.position.set(400,0,60);
+            link4.position.set(400,0,65);
         })
         loader.load('FD-S3/link_5.gltf', function(gltf){
             const mesh = MakeMeshFromGLTF(gltf, material);
@@ -141,7 +140,8 @@
         scene.add(base);
 
         let ik = new InverseKinematics();
-        ik.setNowJointValue(0, Math.PI/2,0,0,0,0);
+        ik.setNowJointValue(link1.rotation.z,-link2.rotation.y,-link3.rotation.y,
+            link4.rotation.x,link5.rotation.y,link6.rotation.x);
         let tgtMat = ik.CalcForwardKinematics();
         let tgtPos = new THREE.Vector3().setFromMatrixPosition(tgtMat);
         let jointDeg = ik.CalcInverseKinematics(tgtMat);
@@ -166,6 +166,8 @@
         const plusJ1 = document.getElementById("plusJ1");
         plusJ1.addEventListener('click', function(event){
             link1.rotation.z += theta;
+            ik.setTheta1 = link1.rotation.z;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(plusJ1);
         })
@@ -174,6 +176,8 @@
         const minusJ1 = document.getElementById("minusJ1");
         minusJ1.addEventListener('click', function(event){
             link1.rotation.z -= theta;
+            ik.setTheta1 = link1.rotation.z;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(minusJ1);
         })
@@ -182,6 +186,8 @@
         const plusJ2 = document.getElementById("plusJ2");
         plusJ2.addEventListener('click', function(event){
             link2.rotation.y += theta;
+            ik.setTheta2 = link2.rotation.y;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(plusJ2);
         })
@@ -190,6 +196,8 @@
         const minusJ2 = document.getElementById("minusJ2");
         minusJ2.addEventListener('click', function(event){
             link2.rotation.y -= theta;
+            ik.setTheta2 = link2.rotation.y;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(minusJ2);
         })
@@ -198,6 +206,8 @@
         const plusJ3 = document.getElementById("plusJ3");
         plusJ3.addEventListener('click', function(event){
             link3.rotation.y += theta;
+            ik.setTheta3 = link3.rotation.y;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(plusJ3);
         })
@@ -206,6 +216,8 @@
         const minusJ3 = document.getElementById("minusJ3");
         minusJ3.addEventListener('click', function(event){
             link3.rotation.y -= theta;
+            ik.setTheta3 = link3.rotation.y;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(minusJ3);
         })
@@ -214,6 +226,8 @@
         const plusJ4 = document.getElementById("plusJ4");
         plusJ4.addEventListener('click', function(event){
             link4.rotation.x += theta;
+            ik.setTheta4 = link4.rotation.x;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(plusJ4);
         })
@@ -222,6 +236,8 @@
         const minusJ4 = document.getElementById("minusJ4");
         minusJ4.addEventListener('click', function(event){
             link4.rotation.x -= theta;
+            ik.setTheta4 = link4.rotation.x;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(minusJ4);
         })
@@ -230,6 +246,8 @@
         const plusJ5 = document.getElementById("plusJ5");
         plusJ5.addEventListener('click', function(event){
             link5.rotation.y += theta;
+            ik.setTheta5 = link5.rotation.y;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(plusJ5);
         })
@@ -238,6 +256,8 @@
         const minusJ5 = document.getElementById("minusJ5");
         minusJ5.addEventListener('click', function(event){
             link5.rotation.y -= theta;
+            ik.setTheta5 = link5.rotation.y;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(minusJ5);
         })
@@ -246,6 +266,8 @@
         const plusJ6 = document.getElementById("plusJ6");
         plusJ6.addEventListener('click', function(event){
             link6.rotation.x += theta;
+            ik.setTheta6 = link6.rotation.x;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(plusJ6);
         })
@@ -254,9 +276,103 @@
         const minusJ6 = document.getElementById("minusJ6");
         minusJ6.addEventListener('click', function(event){
             link6.rotation.x -= theta;
+            ik.setTheta6 = link6.rotation.x;
+            tgtMat = ik.CalcForwardKinematics();
             renderer.render(scene, camera);
             ViewClicking(minusJ6);
         })
+
+        // x正方向
+        const plusX = document.getElementById("plusX");
+        plusX.addEventListener('click', function(event){
+            let aa = tgtMat.clone();
+            let Deg0 = ik.CalcInverseKinematics(tgtMat);
+            tgtMat.elements[12] += 10;
+            let bb = tgtMat.clone();
+            for(let j = 0;j<16;j++)
+            {
+                let k = bb.elements[j] - aa.elements[j];
+                console.log(j,k);
+            }
+            let Deg1 = ik.CalcInverseKinematics(tgtMat);
+            let Deg2 = [0,0,0,0,0,0];
+            for(let i=0;i<6;i++)
+            {
+                let k = Deg1[i]-Deg0[i];
+                Deg2[i] = k;
+            }
+            link1.rotation.z += Deg2[0];
+            link2.rotation.y -= Deg2[1];
+            link3.rotation.y -= Deg2[2];
+            link4.rotation.x += Deg2[3];
+            link5.rotation.y += Deg2[4];
+            link6.rotation.x += Deg2[5];
+            renderer.render(scene, camera);
+        })
+
+        // x負方向
+        const minusX = document.getElementById("minusX");
+        minusX.addEventListener('click', function(event){
+            let Deg0 = ik.CalcInverseKinematics(tgtMat);
+            tgtMat.elements[12] -= 10;
+            let Deg1 = ik.CalcInverseKinematics(tgtMat);
+            let Deg2 = [0,0,0,0,0,0];
+            for(let i=0;i<6;i++)
+            {
+                let k = Deg1[i]-Deg0[i];
+                Deg2[i] = k;
+            }
+            link1.rotation.z += Deg2[0];
+            link2.rotation.y -= Deg2[1];
+            link3.rotation.y -= Deg2[2];
+            link4.rotation.x += Deg2[3];
+            link5.rotation.y += Deg2[4];
+            link6.rotation.x += Deg2[5];
+            renderer.render(scene, camera);
+        })
+
+        // y正方向
+        const plusY = document.getElementById("plusY");
+        plusY.addEventListener('click', function(event){
+            let Deg0 = ik.CalcInverseKinematics(tgtMat);
+            tgtMat.elements[13] += 50;
+            let Deg1 = ik.CalcInverseKinematics(tgtMat);
+            let Deg2 = [0,0,0,0,0,0];
+            for(let i=0;i<6;i++)
+            {
+                let k = Deg1[i]-Deg0[i];
+                Deg2[i] = k;
+            }
+            link1.rotation.z += Deg2[0];
+            link2.rotation.y -= Deg2[1];
+            link3.rotation.y -= Deg2[2];
+            link4.rotation.x += Deg2[3];
+            link5.rotation.y += Deg2[4];
+            link6.rotation.x += Deg2[5];
+            renderer.render(scene, camera);
+        })
+
+        // y負方向
+        const minusY = document.getElementById("minusY");
+        minusY.addEventListener('click', function(event){
+            let Deg0 = ik.CalcInverseKinematics(tgtMat);
+            tgtMat.elements[13] -= 50;
+            let Deg1 = ik.CalcInverseKinematics(tgtMat);
+            let Deg2 = [0,0,0,0,0,0];
+            for(let i=0;i<6;i++)
+            {
+                let k = Deg1[i]-Deg0[i];
+                Deg2[i] = k;
+            }
+            link1.rotation.z += Deg2[0];
+            link2.rotation.y -= Deg2[1];
+            link3.rotation.y -= Deg2[2];
+            link4.rotation.x += Deg2[3];
+            link5.rotation.y += Deg2[4];
+            link6.rotation.x += Deg2[5];
+            renderer.render(scene, camera);
+        })
+
 
         function ViewClicking(target){
             target.addEventListener('mousedown', (e)=>{
