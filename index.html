@@ -287,12 +287,12 @@
         plusX.addEventListener('click', function(event){
             let aa = tgtMat.clone();
             let Deg0 = ik.CalcInverseKinematics(tgtMat);
-            tgtMat.elements[12] += 10;
+            tgtMat.elements[14] += 10;  // <= elements[12]がx座標地のはずだがなぜか[14]でうまくいく
             let bb = tgtMat.clone();
             for(let j = 0;j<16;j++)
             {
                 let k = bb.elements[j] - aa.elements[j];
-                console.log(j,k);
+                //console.log(j,k);
             }
             let Deg1 = ik.CalcInverseKinematics(tgtMat);
             let Deg2 = [0,0,0,0,0,0];
@@ -314,7 +314,7 @@
         const minusX = document.getElementById("minusX");
         minusX.addEventListener('click', function(event){
             let Deg0 = ik.CalcInverseKinematics(tgtMat);
-            tgtMat.elements[12] -= 10;
+            tgtMat.elements[14] -= 10;  // <= elements[12]がx座標地のはずだがなぜか[14]でうまくいく
             let Deg1 = ik.CalcInverseKinematics(tgtMat);
             let Deg2 = [0,0,0,0,0,0];
             for(let i=0;i<6;i++)
@@ -357,6 +357,48 @@
         minusY.addEventListener('click', function(event){
             let Deg0 = ik.CalcInverseKinematics(tgtMat);
             tgtMat.elements[13] -= 50;
+            let Deg1 = ik.CalcInverseKinematics(tgtMat);
+            let Deg2 = [0,0,0,0,0,0];
+            for(let i=0;i<6;i++)
+            {
+                let k = Deg1[i]-Deg0[i];
+                Deg2[i] = k;
+            }
+            link1.rotation.z += Deg2[0];
+            link2.rotation.y -= Deg2[1];
+            link3.rotation.y -= Deg2[2];
+            link4.rotation.x += Deg2[3];
+            link5.rotation.y += Deg2[4];
+            link6.rotation.x += Deg2[5];
+            renderer.render(scene, camera);
+        })
+
+        // z正方向
+        const plusZ = document.getElementById("plusZ");
+        plusZ.addEventListener('click', function(event){
+            let Deg0 = ik.CalcInverseKinematics(tgtMat);
+            tgtMat.elements[12] += 10;  // <= elements[14]がz座標地のはずだがなぜか[12]でうまくいく
+            let Deg1 = ik.CalcInverseKinematics(tgtMat);
+            let Deg2 = [0,0,0,0,0,0];
+            for(let i=0;i<6;i++)
+            {
+                let k = Deg1[i]-Deg0[i];
+                Deg2[i] = k;
+            }
+            link1.rotation.z += Deg2[0];
+            link2.rotation.y -= Deg2[1];
+            link3.rotation.y -= Deg2[2];
+            link4.rotation.x += Deg2[3];
+            link5.rotation.y += Deg2[4];
+            link6.rotation.x += Deg2[5];
+            renderer.render(scene, camera);
+        })
+
+        // z負方向
+        const minusZ = document.getElementById("minusZ");
+        minusZ.addEventListener('click', function(event){
+            let Deg0 = ik.CalcInverseKinematics(tgtMat);
+            tgtMat.elements[12] -= 10;  // <= elements[14]がz座標地のはずだがなぜか[14]でうまくいく
             let Deg1 = ik.CalcInverseKinematics(tgtMat);
             let Deg2 = [0,0,0,0,0,0];
             for(let i=0;i<6;i++)

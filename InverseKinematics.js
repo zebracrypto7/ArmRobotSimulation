@@ -154,7 +154,7 @@ class InverseKinematics {
         const y5 = tgtPos.y - this.dhd6*tgtZDir.y;
         let z5 = tgtPos.z - this.dhd6*tgtZDir.z;
         z5 -= this.dhd0;
-        z5 -= this.dhd1;
+        //z5 -= this.dhd1;
 
         // 逆運動計算
         let arm;
@@ -187,11 +187,11 @@ class InverseKinematics {
         // 姿勢取得
         let temp = new THREE.Matrix4();
         let posMat = this.MakeInverseTfmMatZ(theta1,this.dhd0+this.dhd1).multiply(aTgtMat);
-        posMat = temp.getInverse(this.matX2).multiply(aTgtMat);
+        posMat = new THREE.Matrix4().getInverse(this.matX2).multiply(aTgtMat);
         posMat = this.MakeInverseTfmMatZ(theta2, this.dhd2).multiply(aTgtMat);
-        posMat = temp.getInverse(this.matX3).multiply(aTgtMat);
+        posMat = new THREE.Matrix4().getInverse(this.matX3).multiply(aTgtMat);
         posMat = this.MakeInverseTfmMatZ(theta3, this.dhd3).multiply(aTgtMat);
-        posMat = temp.getInverse(this.matX4).multiply(aTgtMat);
+        posMat = new THREE.Matrix4().getInverse(this.matX4).multiply(aTgtMat);
 
         const r11 = posMat.elements[0];
         const r12 = posMat.elements[4];
@@ -209,6 +209,7 @@ class InverseKinematics {
         sin5 = Math.sqrt(r13*r13+r23*r23);
         const cos5 = r33;
         const theta5 = Math.atan2(sin5,cos5);
+        console.log(theta5);
 
         // 4軸角度
         let sin4,cos4,tan4,theta4;
